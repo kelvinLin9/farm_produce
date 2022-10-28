@@ -23,6 +23,7 @@ const buttonGroups = document.querySelectorAll('.button-group button')
 const searchInput = document.querySelector('.rounded-end')
 const searchBtn = document.querySelector('.search')
 const sortSelect = document.querySelector('.sort-select')
+const sortSelects = document.querySelectorAll('.sort-select option')
 const sortAdvanced = document.querySelector('.js-sort-advanced')
 const sortBtn = document.querySelectorAll('.js-sort-advanced i')
 
@@ -31,13 +32,13 @@ function render(showData) {
   if (showData.length === 0 && searchName === ''){
     str = `
     <td colspan="7" class="text-center p-3">
-      請輸入並搜尋想比價的作物名稱^＿^
+      請輸入並搜尋想比價的作物名稱^_^
     </td>
     `
   }else if(showData.length === 0 && searchName !== '') {
     str = `
     <td colspan="7" class="text-center p-3">
-      查詢不到當日交易資訊Ｑ＿Ｑ
+      查詢不到當日交易資訊Q_Q
     </td>
     `
     showResult.innerHTML = `查看${searchName || type}的比價結果，共${showData.length}筆資料`
@@ -105,6 +106,7 @@ sortAdvanced.addEventListener('click',(e) => {
   if(e.target.nodeName === 'I'){
     upDown = e.target.getAttribute('data-sort')
     sort = e.target.getAttribute('data-price')
+    sortSelects[e.target.getAttribute('data-num')].selected = true
     sortBtn.forEach((i) => {
       i.classList.remove('text-danger')
     })
@@ -114,9 +116,6 @@ sortAdvanced.addEventListener('click',(e) => {
 })
 
 function sortData() {
-  if (showData.length === 0) {
-    showData = data
-  }
   showData.sort((a,b) => {
     if(upDown === 'up'){
       return b[sort] - a[sort]
