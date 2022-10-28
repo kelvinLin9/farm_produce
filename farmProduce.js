@@ -41,7 +41,7 @@ function render(showData) {
       查詢不到當日交易資訊Q_Q
     </td>
     `
-    showResult.innerHTML = `查看${searchName || type}的比價結果，共${showData.length}筆資料`
+    showResult.innerHTML = `查看「${searchName || type}」的比價結果，共${showData.length}筆資料`
   } else {
     showData.forEach((item) => {
       str += `
@@ -56,7 +56,7 @@ function render(showData) {
       </tr>
       `
     })
-    showResult.innerHTML = `查看${searchName || type}的比價結果，共${showData.length}筆資料`
+    showResult.innerHTML = `查看「${searchName || type}」的比價結果，共${showData.length}筆資料`
   }
   showList.innerHTML = str
 }
@@ -64,6 +64,7 @@ function render(showData) {
 buttonGroup.addEventListener('click',(e) => {
   // 避免點到其他地方
   if(e.target.nodeName === 'BUTTON'){
+    searchName = ''
     type = e.target.innerText
     buttonGroups.forEach((i) => {
       i.classList.remove('active')
