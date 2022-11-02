@@ -18,8 +18,8 @@ getData();
 
 const showList = document.querySelector('.showList')
 const showResult = document.querySelector('.show-result')
-const buttonGroup = document.querySelector('.button-group')
-const buttonGroups = document.querySelectorAll('.button-group button')
+const TypeBtn = document.querySelector('.button-group')
+const TypeBtns = document.querySelectorAll('.button-group button')
 const searchInput = document.querySelector('.rounded-end')
 const searchBtn = document.querySelector('.search')
 const sortSelect = document.querySelector('.sort-select')
@@ -60,24 +60,39 @@ function render(showData) {
   }
   showList.innerHTML = str
 }
-
-buttonGroup.addEventListener('click',(e) => {
+// 點擊分類按鈕&搜尋時用
+function removeSortBtn () {
   sortBtn.forEach((i) => {
     i.classList.remove('text-danger')
   })
   sortSelects[0].selected = true
-  // 避免點到其他地方
-  if(e.target.nodeName === 'BUTTON'){
+}
+
+function removeTypeBtn () {
+  TypeBtns.forEach((i) => {
+    i.classList.remove('active')
+  })
+}
+
+function addStyle(et) {
     searchName = ''
-    type = e.target.innerText
-    buttonGroups.forEach((i) => {
-      i.classList.remove('active')
-    })
-    e.target.classList.add('active')
-    showData = data.filter((i) => {
-      return i["種類代碼"] == e.target.getAttribute('data-type')
-    })
-    render(showData)
+    type = et.innerText
+    removeTypeBtn()
+    et.classList.add('active')
+}
+
+function filterData(et) {
+  showData = data.filter((i) => {
+    return i["種類代碼"] == et.getAttribute('data-type')
+  })
+  render(showData)
+}
+
+TypeBtn.addEventListener('click',(e) => {
+  removeSortBtn ()
+  if(e.target.nodeName === 'BUTTON'){
+    addStyle(e.target)
+    filterData(e.target)
   }
 })
 
@@ -87,14 +102,10 @@ searchInput.addEventListener('keyup', (e) => {
     search()
   }
 })
-function search(){
-  sortBtn.forEach((i) => {
-    i.classList.remove('text-danger')
-  })
-  sortSelects[0].selected = true
-  buttonGroups.forEach((i) => {
-    i.classList.remove('active')
-  })
+
+function search() {
+  removeSortBtn()
+  removeTypeBtn()
   if(searchInput.value.trim() ===  '') {
     alert('請輸入作物名稱')
     return
@@ -109,7 +120,6 @@ function search(){
 
 
 sortSelect.addEventListener('change',(e) => {
-  console.log(e.target.value)
   sortItem = e.target.value
   sortOrder = 'asc'
   sortData(sortOrder,sortItem)
@@ -127,12 +137,12 @@ sortAdvanced.addEventListener('click',(e) => {
   }
 })
 
-function sortData(sortOrder,sortItem) {
+function sortData(so,si) {
   showData.sort((a,b) => {
-    if(sortOrder === 'asc'){
-      return b[sortItem] - a[sortItem]
-    } else if(sortOrder === 'desc'){
-      return a[sortItem] - b[sortItem]
+    if(so === 'asc'){
+      return b[si] - a[si]
+    } else if(so === 'desc'){
+      return a[si] - b[si]
     }
   }) 
   render(showData)
