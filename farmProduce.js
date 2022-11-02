@@ -2,8 +2,8 @@ let data = []
 let showData = []
 let searchName = ''
 let type = ''
-let sort = ''
-let upDown = ''
+let sortItem = ''
+let sortOrder = ''
 
 function getData() {
   axios
@@ -62,6 +62,10 @@ function render(showData) {
 }
 
 buttonGroup.addEventListener('click',(e) => {
+  sortBtn.forEach((i) => {
+    i.classList.remove('text-danger')
+  })
+  sortSelects[0].selected = true
   // 避免點到其他地方
   if(e.target.nodeName === 'BUTTON'){
     searchName = ''
@@ -84,7 +88,14 @@ searchInput.addEventListener('keyup', (e) => {
   }
 })
 function search(){
-    if(searchInput.value.trim() ===  '') {
+  sortBtn.forEach((i) => {
+    i.classList.remove('text-danger')
+  })
+  sortSelects[0].selected = true
+  buttonGroups.forEach((i) => {
+    i.classList.remove('active')
+  })
+  if(searchInput.value.trim() ===  '') {
     alert('請輸入作物名稱')
     return
   }
@@ -98,30 +109,30 @@ function search(){
 
 
 sortSelect.addEventListener('change',(e) => {
-  sort = e.target.value
-  upDown = 'up'
-  sortData()
+  console.log(e.target.value)
+  sortItem = e.target.value
+  sortOrder = 'asc'
+  sortData(sortOrder,sortItem)
 })
-
 sortAdvanced.addEventListener('click',(e) => {
   if(e.target.nodeName === 'I'){
-    upDown = e.target.getAttribute('data-sort')
-    sort = e.target.getAttribute('data-price')
+    sortOrder = e.target.getAttribute('data-sort')
+    sortItem = e.target.getAttribute('data-price')
     sortSelects[e.target.getAttribute('data-num')].selected = true
     sortBtn.forEach((i) => {
       i.classList.remove('text-danger')
     })
     e.target.classList.add('text-danger')
-    sortData()
+    sortData(sortOrder,sortItem)
   }
 })
 
-function sortData() {
+function sortData(sortOrder,sortItem) {
   showData.sort((a,b) => {
-    if(upDown === 'up'){
-      return b[sort] - a[sort]
-    } else if(upDown === 'down'){
-      return a[sort] - b[sort]
+    if(sortOrder === 'asc'){
+      return b[sortItem] - a[sortItem]
+    } else if(sortOrder === 'desc'){
+      return a[sortItem] - b[sortItem]
     }
   }) 
   render(showData)
