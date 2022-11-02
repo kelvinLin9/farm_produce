@@ -60,6 +60,7 @@ function render(showData) {
   }
   showList.innerHTML = str
 }
+
 // 點擊分類按鈕&搜尋時用
 function removeSortBtn () {
   sortBtn.forEach((i) => {
