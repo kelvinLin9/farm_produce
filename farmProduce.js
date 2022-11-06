@@ -18,8 +18,8 @@ getData();
 
 const showList = document.querySelector('.showList')
 const showResult = document.querySelector('.show-result')
-const TypeBtn = document.querySelector('.button-group')
-const TypeBtns = document.querySelectorAll('.button-group button')
+const typeBtn = document.querySelector('.button-group')
+const typeBtns = document.querySelectorAll('.button-group button')
 const searchInput = document.querySelector('.rounded-end')
 const searchBtn = document.querySelector('.search')
 const sortSelect = document.querySelector('.sort-select')
@@ -70,7 +70,7 @@ function removeSortBtn () {
 }
 
 function removeTypeBtn () {
-  TypeBtns.forEach((i) => {
+  typeBtns.forEach((i) => {
     i.classList.remove('active')
   })
 }
@@ -89,7 +89,7 @@ function filterData(et) {
   render(showData)
 }
 
-TypeBtn.addEventListener('click',(e) => {
+typeBtn.addEventListener('click',(e) => {
   removeSortBtn ()
   if(e.target.nodeName === 'BUTTON'){
     addStyle(e.target)
@@ -107,13 +107,14 @@ searchInput.addEventListener('keyup', (e) => {
 function search() {
   removeSortBtn()
   removeTypeBtn()
-  if(searchInput.value.trim() ===  '') {
+  searchName = searchInput.value.trim()
+  if(searchName ===  '') {
     alert('請輸入作物名稱')
     return
   }
-  searchName = searchInput.value.trim()
+  
   showData = data.filter((i) => {
-    return i["作物名稱"].match(searchInput.value.trim())
+    return i["作物名稱"].match(searchName)
   })
   searchInput.value = ''
   render(showData)
