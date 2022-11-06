@@ -16,7 +16,7 @@ function getData() {
 }
 getData();
 
-const showList = document.querySelector('.showList')
+const showList = document.querySelector('.showList');
 const showResult = document.querySelector('.show-result')
 const typeBtn = document.querySelector('.button-group')
 const typeBtns = document.querySelectorAll('.button-group button')
